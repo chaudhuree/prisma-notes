@@ -30,7 +30,7 @@ model Person {
   preferencesId String?      @unique @db.ObjectId
 
   //block level
-  @@unique([age, name])
+  // @@unique([age, name])
 }
 
 enum Role {
@@ -41,8 +41,9 @@ enum Role {
 
 model Preferences {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  updateEmail Boolean
   person      Person?
+  updateEmail Boolean
+  from        String
 }
 
 model Post {
@@ -63,4 +64,19 @@ model Category {
   id    String @id @default(auto()) @map("_id") @db.ObjectId
   name  String @unique
   posts Post[] //one-to-many
+}
+
+//do new stuff here
+model UserAgain {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  email   String    @unique
+  name    String?
+  address Address[] @relation("local")
+}
+
+model Address {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  city        String
+  user        UserAgain? @relation("local", fields: [userAgainId], references: [id])
+  userAgainId String?    @db.ObjectId
 }
