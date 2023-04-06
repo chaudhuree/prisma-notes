@@ -26,7 +26,8 @@ model Person {
   // usp         Unsupported("")
   writtenPosts  Post[]       @relation("WrittenPosts") //one-to-many
   favoritePosts Post[]       @relation("FavoritePosts") //one-to-many
-  preferences   Preferences? //one-to-one
+  preferences   Preferences? @relation(fields: [preferencesId], references: [id])
+  preferencesId String?      @unique @db.ObjectId
 
   //block level
   @@unique([age, name])
@@ -40,9 +41,8 @@ enum Role {
 
 model Preferences {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
-  person      Person  @relation(fields: [personId], references: [id]) //one-to-one
-  personId    String  @unique @db.ObjectId
   updateEmail Boolean
+  person      Person?
 }
 
 model Post {
