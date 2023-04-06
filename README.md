@@ -69,3 +69,6 @@ module.exports = prisma
     "editor.formatOnSave": true
   },
 ```
+
+
+documentation link: https://documenter.getpostman.com/view/20773865/2s93RZMVam
