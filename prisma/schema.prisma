@@ -13,3 +13,54 @@ model User {
   email String  @unique
   name  String?
 }
+
+//data model with different field types
+model Person {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  email         String       @unique
+  name          String
+  age           Int
+  role          Role         @default(BASIC) // enum
+  // largeNumber BigInt
+  // blob        Bytes
+  // usp         Unsupported("")
+  writtenPosts  Post[]       @relation("WrittenPosts") //one-to-many
+  favoritePosts Post[]       @relation("FavoritePosts") //one-to-many
+  preferences   Preferences? //one-to-one
+
+  //block level
+  @@unique([age, name])
+}
+
+enum Role {
+  BASIC
+  EDITOR
+  ADMIN
+}
+
+model Preferences {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  person      Person  @relation(fields: [personId], references: [id]) //one-to-one
+  personId    String  @unique @db.ObjectId
+  updateEmail Boolean
+}
+
+model Post {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  averageRating  Float
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  author         Person    @relation("WrittenPosts", fields: [authorId], references: [id])
+  authorId       String    @db.ObjectId
+  favoriteBy     Person    @relation("FavoritePosts", fields: [favouritedById], references: [id])
+  favouritedById String    @db.ObjectId
+  Category       Category? @relation(fields: [categoryId], references: [id])
+  categoryId     String?   @db.ObjectId
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  posts Post[] //one-to-many
+}
