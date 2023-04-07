@@ -98,6 +98,7 @@ exports.addressPush = async (req, res) => {
 }
 
 //disconnect address from user address array field
+// for one to one disconnect: true likhlei hobe
 exports.addressDisconnect = async (req, res) => {
   const address = await prisma.userAgain.update({
     where: {
