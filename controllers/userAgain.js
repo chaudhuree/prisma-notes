@@ -115,7 +115,9 @@ exports.addressDisconnect = async (req, res) => {
   res.send("done")
 }
 
-//==> another way to delete address from user just delete it from specific model
+//==> another way to delete address from user
+// just delete it from specific model
+// if i delete the id from address schima then it will not be availabe in user
 // const address = await prisma.address.delete({
 //   where: {
 //     id: "642f23f4fd314bc9fc68cbfe"
