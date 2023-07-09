@@ -16,6 +16,15 @@ model User {
 }
 ```
 
+> we can use uuid() instead of autoincrement() for postgresql.
+
+```js
+ model User {
+  id    String  @id @default(uuid())
+}
+```
+
+
 # after editing schema.prisma run this command:
 
 ```js
@@ -107,6 +116,7 @@ model Preferences {
 model Post {
   averageRating  Float  // for rating like 4.7
   createdAt      DateTime  @default(now())
+  notedAt        DateTime?
   updatedAt      DateTime  @updatedAt
   published      Boolean   @default(false)
   author         Person    @relation("WrittenPosts", fields: [authorId], references: [id])
@@ -118,13 +128,14 @@ model Post {
 # relation:
 
 1. one-to-many relation
-  = one person can write many posts
-  = one post can be written by one person
+  - one person can write many posts
+  - one post can be written by one person
 
 2. may-to-many relation
-  = one post can have many categories
-  = one category can have many posts
+  - one post can have many categories
+  - one category can have many posts
 
 3. one-to-one relation
-  = one person can have one preferences
-  = one preferences can have one person
+  - one person can have one preferences
+  - one preferences can have one person
+
