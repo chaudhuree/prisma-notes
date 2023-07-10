@@ -103,7 +103,6 @@ note: field tar name kintu chage kore issa moto rakha jabe. like userId theke ch
 > # explanation: 
 
   ## NOTE (🔥) : one thing to be noted. as per file name, aita one to many relationship. that means akta post just akjon darai favourited kora jabe.
-
   - uporer example a akjon user er kase post er duita reference thakbe. like akta se likhce.and akta se favourite hishbe like dice.
   - so Post model a o duita reference thakbe akta hold korbe k post ta create korce. and r akta rakhbe k favourite hishbe like koreche.(duita field e single User model er id hold korbe,cz aita one to many. aikhane many bolte User model er moddhe many post and favourite post thakte pare. but Post model er moddhe akta user er id thakbe for the author. and akta user er id thakbe for the favourite. so aitai one to many.)
 
@@ -153,5 +152,7 @@ model Post {
   - favourited ta k "?" dea optional kore dewa hoyece. cz post ta j karo dara favorited hoitei hobe amon to na.
 
   > usually amon scenerion hoy na. but amader khetre hoice tai amonta kore dewa hoyece. mane aki model er sathe duibar one to many relationship hoy na.
+
+
 
 এই ছিল ওায়ান টু মেনি রেলেশনশিপ রিলেটেড কোড  

@@ -1,13 +1,88 @@
-```js
-  model Post {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  title     String
-  author    Person  @relation("WrittenPosts", fields: [authorId], references: [id])
-  authorId  String  @db.ObjectId
-  favorited Person[] @relation("FavoritePosts") //many-to-many
+generator client {
+  provider = "prisma-client-js"
 }
-```
 
-  ## but upore bolcilam aita jodi many to many relationship hoto tahole kivabe hoto. aita dekha jabe nicher code a.
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
 
- ## jodi many to many hoito tahole amra Post model a user er akta array banaitam and oitay user der id gulo rakhtam. so aitar example pore dea rakhteci.for now. comes to one to many relationship.
+//  actual code starts here
+model User {
+  id    String  @id @default(auto()) @map("_id") @db.ObjectId
+  email String  @unique
+  name  String?
+}
+
+//data model with different field types
+model Person {
+  id            String       @id @default(auto()) @map("_id") @db.ObjectId
+  email         String       @unique
+  name          String
+  age           Int
+  role          Role         @default(BASIC) // enum
+  // largeNumber BigInt
+  // blob        Bytes
+  // usp         Unsupported("")
+  writtenPosts  Post[]       @relation("WrittenPosts") //one-to-many
+  favoritePosts Post[]       @relation("FavoritePosts") //one-to-many
+  preferences   Preferences? @relation(fields: [preferencesId], references: [id])
+  preferencesId String?      @unique @db.ObjectId
+
+  //block level
+  // @@unique([age, name])
+}
+// ১ -১ রিলেশনশিপ উপড়ে একটি আছে।
+// একজন ইউজার একটা প্রেফারেন্স থাকতে পারে।
+
+// ১ - ন রিলেশনশিপ উপড়ে দুইটি আছে।
+// একজন ইউজার একাধিক পোস্ট লিখতে পারে।
+// একজন ইউজার একাধিক পোস্ট ফেভারিট করতে পারে।
+
+enum Role {
+  BASIC
+  EDITOR
+  ADMIN
+}
+
+model Preferences {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  person      Person?
+  updateEmail Boolean
+  from        String
+}
+
+model Post {
+  id             String    @id @default(auto()) @map("_id") @db.ObjectId
+  title          String
+  averageRating  Float
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  author         Person    @relation("WrittenPosts", fields: [authorId], references: [id])
+  authorId       String    @db.ObjectId
+  favoriteBy     Person    @relation("FavoritePosts", fields: [favouritedById], references: [id])
+  favouritedById String    @db.ObjectId
+  Category       Category? @relation(fields: [categoryId], references: [id])
+  categoryId     String?   @db.ObjectId
+}
+
+model Category {
+  id    String @id @default(auto()) @map("_id") @db.ObjectId
+  name  String @unique
+  posts Post[] //one-to-many
+}
+
+//do new stuff here
+model UserAgain {
+  id      String    @id @default(auto()) @map("_id") @db.ObjectId
+  email   String    @unique
+  name    String?
+  address Address[] @relation("local")
+}
+
+model Address {
+  id          String     @id @default(auto()) @map("_id") @db.ObjectId
+  city        String
+  user        UserAgain? @relation("local", fields: [userAgainId], references: [id])
+  userAgainId String?    @db.ObjectId
+}

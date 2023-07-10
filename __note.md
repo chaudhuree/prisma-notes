@@ -1,4 +1,4 @@
-># setup related things are in REAME.md file
+> # setup related things are in REAME.md file
 
 # for defining an id for mongodb:
 
@@ -23,7 +23,6 @@ model User {
   id    String  @id @default(uuid())
 }
 ```
-
 
 # after editing schema.prisma run this command:
 
@@ -70,18 +69,18 @@ attribute= @unique --> it refers this field is unique
 4. Boolean
 5. DateTime
 6. Json --> for storing json data it is only for postgresql
-7. Bytes --> for storing image 
+7. Bytes --> for storing image
 8. Unsupported --> for storing unsupported data
 9. enum --> for storing enum data
 10. db.ObjectId --> for storing mongodb id --> relationship
 
 ```js
 model Person {
-  email         String      
+  email         String
   age           Int
   role          Role         @default(BASIC) // enum
   largeNumber BigInt
-  blob        Bytes       // ইমেজ সেভ করার জন্য
+  blob        Bytes         // for image
   usp         Unsupported("")
   writtenPosts  Post[]       @relation("WrittenPosts") //one-to-many
   preferences   Preferences? @relation(fields: [preferencesId], references: [id])
@@ -91,6 +90,7 @@ model Person {
   // @@unique([age, name])
 }
 ```
+
 > for enum type. this is used in the role field of User model in the above example.
 
 ```js
@@ -105,7 +105,7 @@ enum Role {
 
 ```js
 model Preferences {
-  person      Person? 
+  person      Person?
   from        String
 }
 ```
@@ -117,12 +117,11 @@ model Post {
   averageRating  Float  // for rating like 4.7
   createdAt      DateTime  @default(now())
   notedAt        DateTime?
-  updatedAt      DateTime  @updatedAt
+  updatedAt      DateTime  @updatedAt  // every time when we update this data it will update the updatedAt field
   published      Boolean   @default(false)
   author         Person    @relation("WrittenPosts", fields: [authorId], references: [id])
   authorId       String    @db.ObjectId
 }
-```
 
 
 # relation:
@@ -131,7 +130,7 @@ model Post {
   - one person can write many posts
   - one post can be written by one person
 
-2. may-to-many relation
+2. many-to-many relation
   - one post can have many categories
   - one category can have many posts
 
@@ -139,3 +138,4 @@ model Post {
   - one person can have one preferences
   - one preferences can have one person
 
+```

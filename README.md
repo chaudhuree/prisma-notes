@@ -72,3 +72,10 @@ module.exports = prisma
 
 
 documentation link: https://documenter.getpostman.com/view/20773865/2s93RZMVam
+
+> #### next file to read:
+
+- __note.md
+- __note-oneToomany.md
+- __note-manyTomany.md
+- __note-oneToone.md
