@@ -86,3 +86,41 @@ model Address {
   user        UserAgain? @relation("local", fields: [userAgainId], references: [id])
   userAgainId String?    @db.ObjectId
 }
+
+
+
+///
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// User model
+model User {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  username     String   @unique
+  likedPostIds String[] @db.ObjectId
+  likedPosts   Post[]   @relation(name: "userLikedPosts", fields: [likedPostIds], references: [id])
+  // posts        Post[]   @relation(name: "postCreator", fields: [postId], references: [id])
+  // postId       String?  @db.ObjectId
+  
+ 
+}
+
+// Post model
+model Post {
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  title     String
+  content   String
+  likedById String  @db.ObjectId
+  likedBy   User[]  @relation(name: "userLikedPosts", fields: [likedById], references: [id])
+
+  // User      User?   @relation(name:"postCreator",fields: [userId], references: [id])
+  // userId    String? @db.ObjectId
+  
+}

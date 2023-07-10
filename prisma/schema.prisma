@@ -28,12 +28,10 @@ model Person {
   favoritePosts Post[]       @relation("FavoritePosts") //one-to-many
   preferences   Preferences? @relation(fields: [preferencesId], references: [id])
   preferencesId String?      @unique @db.ObjectId
-  // preferences   Preferences?
 
   //block level
   // @@unique([age, name])
 }
-
 // ১ -১ রিলেশনশিপ উপড়ে একটি আছে।
 // একজন ইউজার একটা প্রেফারেন্স থাকতে পারে।
 
@@ -50,8 +48,6 @@ enum Role {
 model Preferences {
   id          String  @id @default(auto()) @map("_id") @db.ObjectId
   person      Person?
-  // person      Person? @relation(fields: [personId], references: [id])
-  // personId    String? @unique @db.ObjectId
   updateEmail Boolean
   from        String
 }
