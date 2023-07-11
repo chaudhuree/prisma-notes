@@ -85,9 +85,11 @@ documentation link: https://documenter.getpostman.com/view/20773865/2s93RZMVam
 
 > #### next file to read:
 
-- __note.md
-- __note-oneToomany.md
-- __note-manyTomany.md
-- __note-oneToone.md
-- __note--bloclevelattribute.md
-- __note-combinationOfOneTomanyAndManyToMany.md
+- 📂 __note.md
+- 📂 __note-oneToomany.md
+- 📂 __note-manyTomany.md
+- 📂 __note-oneToone.md
+- 📂 __note--bloclevelattribute.md
+- 📂 __note-combinationOfOneTomanyAndManyToMany.md
+- 📂 __note-CRUD-basic.md (helper file 📂 __node-prisma-schema.md)
+- 📂 __note-transaction.md

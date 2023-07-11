@@ -32,6 +32,8 @@ exports.createPerson = async (req, res) => {
       //   preferences: true
       // }
       //include is like populate in mongoose
+      // ❌❌ include and select can not be used together in same level.
+      // so either uncomment include part or below select part.
       // select: {
       //   name: true,
       //   preferences: {
@@ -86,8 +88,8 @@ exports.findOne = async (req, res) => {
           select: {
             updateEmail: true,
             from: true,
-          }
-        }
+          },
+        },
       },
     });
     res.json(person);
@@ -160,7 +162,6 @@ exports.updatePerson = async (req, res) => {
 // working
 exports.upsertPerson = async (req, res) => {
   try {
-
     const person = await prisma.person.upsert({
       where: {
         email: "hahu@gmail.com",
@@ -175,7 +176,7 @@ exports.upsertPerson = async (req, res) => {
         role: "BASIC",
       },
     });
-    res.json({ message: 'Person upserted successfully' });
+    res.json({ message: "Person upserted successfully" });
   } catch (error) {
     console.log(error);
   }
@@ -190,27 +191,27 @@ exports.upsertPersonPreference = async (req, res) => {
     let preferences = await prisma.Preferences.findFirst({
       where: {
         updateEmail: false,
-        from: "baridhara"
-      }
+        from: "baridhara",
+      },
     });
     if (!preferences) {
       preferences = await prisma.preferences.create({
         data: {
           updateEmail: false,
-          from: 'baridhara'
-        }
+          from: "baridhara",
+        },
       });
     }
     const person = await prisma.person.upsert({
       where: {
-        email: "kabir27@gmail.com"
+        email: "kabir27@gmail.com",
       },
       update: {
         preferences: {
           connect: {
-            id: preferences.id
-          }
-        }
+            id: preferences.id,
+          },
+        },
       },
       create: {
         email: "kabir27@gmail.com",
@@ -219,18 +220,16 @@ exports.upsertPersonPreference = async (req, res) => {
         role: "BASIC",
         preferences: {
           connect: {
-            id: preferences.id
+            id: preferences.id,
           },
         },
       },
     });
-    res.json({ message: 'Person upserted successfully' });
+    res.json({ message: "Person upserted successfully" });
   } catch (error) {
     console.log(error);
   }
 };
-
-
 
 // distinct
 // distinct actually return the unique value of the field
@@ -354,59 +353,56 @@ const post = await prisma.post.findMany({
    }
 */
 
-
-
-
 // update data
 
 exports.updatePersonAgain = async (req, res) => {
   const person = await prisma.person.update({
     where: {
-      email: 'kabir1@gmail.com'
+      email: "kabir1@gmail.com",
     },
     data: {
-      email: 'kabir22@gmail.com'
-    }
-  })
-}
+      email: "kabir22@gmail.com",
+    },
+  });
+};
 
 // update many person
 exports.updateManyPerson = async (req, res) => {
   const person = await prisma.person.updateMany({
     where: {
-      name: 'sohan'
+      name: "sohan",
     },
     data: {
-      name: 'sohanupdated'
-    }
-  })
-}
+      name: "sohanupdated",
+    },
+  });
+};
 //create preference
 exports.createPreference = async (req, res) => {
   const preference = await prisma.preferences.create({
     data: {
       updateEmail: true,
-      from: 'dinajpur'
-    }
-  })
-  res.json(preference)
-}
+      from: "dinajpur",
+    },
+  });
+  res.json(preference);
+};
 
 //increment and decrement can be done while updating but make sure while finding the data it should by the unique field.like for our case email is unique field
 
 exports.connectPreference = async (req, res) => {
   const person = await prisma.person.update({
     where: {
-      id: "642f023d744777ca9bf102ee"
+      id: "642f023d744777ca9bf102ee",
     },
     data: {
       // name: "yahoo",
       preferences: {
         connect: {
-          id: '642f0f94a95b98296de07033'
-        }
-      }
-    }
-  })
-  res.json(person)
-}
+          id: "642f0f94a95b98296de07033",
+        },
+      },
+    },
+  });
+  res.json(person);
+};
